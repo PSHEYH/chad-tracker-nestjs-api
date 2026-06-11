@@ -9,7 +9,6 @@ type UserRow = {
   email: string;
   password_hash: string | null;
   role: string;
-  google_subject: string | null;
 };
 
 @Injectable()
@@ -23,8 +22,7 @@ export class SupabaseUserRepository implements UserRepository {
         id: user.id,
         email: user.email,
         password_hash: user.password,
-        role: user.role,
-        google_subject: user.googleSubject,
+        role: user.role
       })
       .select()
       .single();
@@ -47,24 +45,6 @@ export class SupabaseUserRepository implements UserRepository {
     return this.findOne('id', id);
   }
 
-  async findByGoogleSubject(subject: string): Promise<User | null> {
-    return this.findOne('google_subject', subject);
-  }
-
-  async linkGoogleSubject(id: string, subject: string): Promise<User> {
-    const { data, error } = await this.supabase.client
-      .from('users')
-      .update({ google_subject: subject })
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) {
-      throw new AuthOperationError(error.message, 500);
-    }
-
-    return this.toDomain(data);
-  }
 
   // async incrementTokenVersion(id: string): Promise<void> {
   //   const user = await this.findById(id);
@@ -84,7 +64,7 @@ export class SupabaseUserRepository implements UserRepository {
   // }
 
   private async findOne(
-    column: 'id' | 'email' | 'google_subject',
+    column: 'id' | 'email',
     value: string,
   ) {
     const { data, error } = await this.supabase.client
@@ -106,7 +86,6 @@ export class SupabaseUserRepository implements UserRepository {
       row.email,
       row.password_hash,
       row.role,
-      row.google_subject,
     );
   }
 }

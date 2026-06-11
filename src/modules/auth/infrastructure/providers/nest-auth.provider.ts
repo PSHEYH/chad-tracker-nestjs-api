@@ -65,26 +65,27 @@ export class NestAuthProvider implements AuthProvider {
   }
 
   async loginWithGoogle(idToken: string): Promise<AuthResult> {
-    const identity = await this.googleIdentityVerifier.verify(idToken);
-    let user = await this.users.findByGoogleSubject(identity.subject);
+    // const identity = await this.googleIdentityVerifier.verify(idToken);
+    // let user = await this.users.findByGoogleSubject(identity.subject);
 
-    if (!user) {
-      const existingUser = await this.users.findByEmail(identity.email);
+    // if (!user) {
+    //   const existingUser = await this.users.findByEmail(identity.email);
 
-      user = existingUser
-        ? await this.users.linkGoogleSubject(existingUser.id, identity.subject)
-        : await this.users.create(
-            new User(
-              randomUUID(),
-              identity.email,
-              null,
-              'user',
-              identity.subject,
-            ),
-          );
-    }
+    //   user = existingUser
+    //     ? await this.users.linkGoogleSubject(existingUser.id, identity.subject)
+    //     : await this.users.create(
+    //         new User(
+    //           randomUUID(),
+    //           identity.email,
+    //           null,
+    //           'user',
+    //           identity.subject,
+    //         ),
+    //       );
+    // }
 
-    return this.createAuthResult(user);
+    // return this.createAuthResult(user);
+    throw new AuthOperationError('Google login is not implemented yet', 501);
   }
 
   async refresh(refreshToken: string): Promise<AuthResult> {
