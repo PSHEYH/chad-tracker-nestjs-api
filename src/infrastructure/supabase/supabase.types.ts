@@ -14,7 +14,6 @@ type UserRow = {
   email: string;
   password_hash: string | null;
   role: string;
-  google_subject: string | null;
 };
 
 type WorkoutSessionRow = {
@@ -32,7 +31,7 @@ export interface Database {
       users: {
         Row: UserRow;
         Insert: Pick<UserRow, 'id' | 'email'> &
-          Partial<Pick<UserRow, 'password_hash' | 'role' | 'google_subject'>>;
+          Partial<Pick<UserRow, 'password_hash' | 'role'>>;
         Update: Partial<Omit<UserRow, 'id'>>;
         Relationships: [];
       };
