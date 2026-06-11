@@ -12,7 +12,7 @@ type WorkoutRow = {
 type UserRow = {
   id: string;
   email: string;
-  password_hash: string | null;
+  password: string | null;
   role: string;
 };
 
@@ -31,7 +31,7 @@ export interface Database {
       users: {
         Row: UserRow;
         Insert: Pick<UserRow, 'id' | 'email'> &
-          Partial<Pick<UserRow, 'password_hash' | 'role'>>;
+          Partial<Pick<UserRow, 'password' | 'role'>>;
         Update: Partial<Omit<UserRow, 'id'>>;
         Relationships: [];
       };

@@ -7,7 +7,7 @@ import { User } from '../../domain/entities/user';
 type UserRow = {
   id: string;
   email: string;
-  password_hash: string | null;
+  password: string | null;
   role: string;
 };
 
@@ -21,7 +21,7 @@ export class SupabaseUserRepository implements UserRepository {
       .insert({
         id: user.id,
         email: user.email,
-        password_hash: user.password,
+        password: user.password,
         role: user.role
       })
       .select()
@@ -84,7 +84,7 @@ export class SupabaseUserRepository implements UserRepository {
     return new User(
       row.id,
       row.email,
-      row.password_hash,
+      row.password,
       row.role,
     );
   }
